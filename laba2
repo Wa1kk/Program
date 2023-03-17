@@ -1,0 +1,160 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Drawing.Text;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace WindowsFormsApp26
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+        int z = 10;
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            timer1.Start();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            // Холст
+            Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            Graphics g = Graphics.FromImage(bmp);
+            pictureBox1.Image = bmp;
+            
+            // Фон
+            g.Clear(Color.DarkGreen);
+
+            // Текст
+            using (Font font1 = new Font("Times New Roman", 33, FontStyle.Bold, GraphicsUnit.Pixel))
+            {
+                g.DrawString("С Днём Победы!", font1, Brushes.Red, new PointF(200, 120));
+            }
+
+            // Лента
+            SolidBrush lenta1 = new SolidBrush(Color.Orange);
+            SolidBrush lenta2 = new SolidBrush(Color.Black);
+            g.FillRectangle(lenta1, 17, 0, 3, 430);
+            g.FillRectangle(lenta2, 20, 0, 15, 430);
+            g.FillRectangle(lenta1, 35, 0, 15, 430);
+            g.FillRectangle(lenta2, 50, 0, 15, 430);
+            g.FillRectangle(lenta1, 65, 0, 15, 430);
+            g.FillRectangle(lenta2, 80, 0, 15, 430);
+            g.FillRectangle(lenta1, 95, 0, 3, 430);
+
+            // Звезда
+            SolidBrush zvezda = new SolidBrush(Color.Red);
+            
+            int n = 5;                  // число вершин
+            double R = 25, r = 50;      // радиусы
+            double alpha = 60;          // поворот
+            double x0 = 325, y0 = 60;   // центр
+            
+            PointF[] zvezdapoints = new PointF[2 * n + 1];
+            double a = alpha, da = Math.PI / n, l;
+            for (int k = 0; k < 2 * n + 1; k++)
+            {
+                l = k % 2 == 0 ? r : R;
+                zvezdapoints[k] = new PointF((float)(x0 + l * Math.Cos(a)), (float)(y0 + l * Math.Sin(a)));
+                a += da;
+            }
+            g.FillPolygon(zvezda, zvezdapoints);
+
+            // Контур звезды
+            Pen contyr = new Pen(Color.Black, 3);
+            int n2 = 5;                  // число вершин
+            double R2 = 25, r2 = 50;     // радиусы
+            double alpha2 = 60;          // поворот
+            double x02 = 325, y02 = 60;  // центр
+
+            PointF[] zvezdapoints2 = new PointF[2 * n2 + 1];
+            double a2 = alpha2, da2 = Math.PI / n2;
+            for (int k = 0; k < 2 * n2 + 1; k++)
+            {
+                l = k % 2 == 0 ? r2 : R2;
+                zvezdapoints2[k] = new PointF((float)(x02 + l * Math.Cos(a2)), (float)(y02 + l * Math.Sin(a2)));
+                a2 += da2;
+            }          
+            g.DrawLines(contyr, zvezdapoints);
+
+            // Истребитель
+            SolidBrush istr = new SolidBrush(Color.DarkGray);
+
+            int speed = 25;
+            
+            int x = 770 - z;
+            int y = 266;
+            int b = 25;
+            int f = 25;
+            Point[] curvePoints =
+            {
+                new Point(x, y),
+                new Point(x, y + f),
+                new Point(x - f, y + b)
+            };
+            g.FillPolygon(istr, curvePoints);
+
+
+            x = 895 - z;
+            y = 241;
+            b = 25;
+            f = 25;
+            Point[] curveePoints =
+            {
+                new Point(x, y),
+                new Point(x, y + f),
+                new Point(x - f, y + b)
+            };
+            g.FillPolygon(istr, curveePoints);
+
+
+            x = 840 - z;
+            y = 241;
+            b = 25;
+            f = 25;
+            Point[] curveeePoints =
+            {
+                new Point(x, y),
+                new Point(x, y + f),
+                new Point(x - f, y + b)
+            };
+            g.FillPolygon(istr, curveeePoints);
+
+
+            x = 840 - z;
+            y = 316;
+            b = 25;
+            f = 25;
+            Point[] curveeeePoints =
+            {
+                new Point(x, y),
+                new Point(x, y - f),
+                new Point(x - f, y - b)
+            };
+            g.FillPolygon(istr, curveeeePoints);
+            
+            g.FillRectangle(istr, 770 - z, 266, 125, 25);
+            
+            z += speed;
+            if (x < -200)
+            {
+                z = 10;
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+    }
+}
