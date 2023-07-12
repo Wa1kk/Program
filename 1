@@ -33,11 +33,11 @@ begin
     repeat
        Write('Введите второе число: ');
        ReadLn(elm2);
+       Stop(elm2);
        if elm2 = '0' then
        begin
           WriteLn('На ноль делить нельзя.')
        end;
-       Stop(elm2);
        Val(elm2, num2, code);
     until (code = 0) and (elm2[1] <> '0');
 
