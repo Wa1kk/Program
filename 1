@@ -5,7 +5,7 @@ elm1, elm2, operation : string; // Полученные значения, зна
 num1, num2, result : double;    // Числа, результат
 code : integer;                 // Счетчик
 
-procedure Stop(q: String);      // Поиск q для выхода из программы
+procedure Stop(q : String);     // Поиск q для выхода из программы
 begin
     if q = 'q' then
     begin
@@ -41,7 +41,7 @@ begin
        Val(elm2, num2, code);
     until (code = 0) and (elm2[1] <> '0');
 
-    // Знак операции и действия
+    // Вычисления
     if operation = '+' then
     begin
        result := num1 + num2;
