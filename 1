@@ -1,0 +1,86 @@
+program project1;
+
+var
+elm1, elm2, operation : string; // Полученные значения, знак операции
+num1, num2, result : double;    // Числа, результат
+code : integer;                 // Счетчик
+
+procedure Exitt(simvol : string);
+begin
+    if simvol = 'q' then
+    begin
+         exit;
+    end;
+end;
+
+procedure Numbers();
+begin;
+    // Получение первого числа
+    repeat
+       Write('Enter the first number: ');
+       ReadLn(elm1);
+       Exitt(elm1);
+       Val(elm1, num1, code);
+    until code = 0;
+
+    // Получение знака операции
+    repeat
+       Write('Enter the operation sign: ');
+       ReadLn(operation);
+       if operation = 'q' then
+       begin
+          exit;
+       end;
+    until (operation = '+') or (operation = '-') or (operation = ':') or (operation = '*');
+
+    // Получение второго числа
+    repeat
+       Write('Enter the second number: ');
+       ReadLn(elm2);
+       if elm2 = '0' then
+       begin
+          WriteLn('Dividing by 0 is not allowed.')
+       end;
+       if elm2 = 'q' then
+       begin
+          exit;
+       end;
+       Val(elm2, num2, code);
+    until (code = 0) and (elm2[1] <> '0');
+end;
+
+procedure SearchOperation();
+begin
+    // Знак операции и действия
+    if operation = '+' then
+    begin
+       result := num1 + num2;
+    end;
+
+    if operation = '-' then
+    begin
+       result := num1 - num2;
+    end;
+
+    if operation = '*' then
+    begin
+       result := num1 * num2;
+    end;
+
+    if operation = ':' then
+    begin
+       result := num1 / num2;
+    end;
+end;
+
+
+
+begin
+    Numbers();
+    SearchOperation();
+
+
+    // Вывод результата
+    Write('Result: ', result :0 :2);
+    ReadLn;
+end.
