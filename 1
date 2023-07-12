@@ -5,52 +5,42 @@ elm1, elm2, operation : string; // Полученные значения, зна
 num1, num2, result : double;    // Числа, результат
 code : integer;                 // Счетчик
 
-procedure Exitt(simvol : string);
+procedure Stop(q: String);      // Поиск q для выхода из программы
 begin
-    if simvol = 'q' then
+    if q = 'q' then
     begin
-         exit;
+       halt;
     end;
 end;
 
-procedure Numbers();
-begin;
+begin
     // Получение первого числа
     repeat
-       Write('Enter the first number: ');
+       Write('Введите первое число: ');
        ReadLn(elm1);
-       Exitt(elm1);
+       Stop(elm1);
        Val(elm1, num1, code);
     until code = 0;
 
     // Получение знака операции
     repeat
-       Write('Enter the operation sign: ');
+       Write('Введите знак операции: ');
        ReadLn(operation);
-       if operation = 'q' then
-       begin
-          exit;
-       end;
+       Stop(operation);
     until (operation = '+') or (operation = '-') or (operation = ':') or (operation = '*');
 
     // Получение второго числа
     repeat
-       Write('Enter the second number: ');
+       Write('Введите второе число: ');
        ReadLn(elm2);
        if elm2 = '0' then
        begin
-          WriteLn('Dividing by 0 is not allowed.')
+          WriteLn('На ноль делить нельзя.')
        end;
-       if elm2 = 'q' then
-       begin
-          exit;
-       end;
+       Stop(elm2);
        Val(elm2, num2, code);
     until (code = 0) and (elm2[1] <> '0');
-end;
 
-procedure SearchOperation();
-begin
     // Знак операции и действия
     if operation = '+' then
     begin
@@ -71,16 +61,8 @@ begin
     begin
        result := num1 / num2;
     end;
-end;
-
-
-
-begin
-    Numbers();
-    SearchOperation();
-
 
     // Вывод результата
-    Write('Result: ', result :0 :2);
+    Write('Результат: ', result :0 :2);
     ReadLn;
 end.
