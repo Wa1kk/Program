@@ -1,68 +1,70 @@
 program project1;
 
 var
-elm1, elm2, operation : string; // Полученные значения, знак операции
-num1, num2, result : double;    // Числа, результат
-code : integer;                 // Счетчик
-
-procedure Stop(q : String);     // Поиск q для выхода из программы
-begin
-    if q = 'q' then
-    begin
-       halt;
-    end;
-end;
+elm1, elm2, operation: string;     // Полученные значения, знак операции
+num1, num2, result : double;       // Числа, результат
+check1, check2: integer;           // Флажок (цифры, :0)
 
 begin
     // Получение первого числа
     repeat
-       Write('Введите первое число: ');
-       ReadLn(elm1);
-       Stop(elm1);
-       Val(elm1, num1, code);
-    until code = 0;
+        Write('Введите первое число: ');
+        ReadLn(elm1);
+        Val(elm1, num1, check1);
+    until (check1 = 0) or (elm1 = 'q');
 
     // Получение знака операции
     repeat
-       Write('Введите знак операции: ');
-       ReadLn(operation);
-       Stop(operation);
-    until (operation = '+') or (operation = '-') or (operation = ':') or (operation = '*');
+        if elm1 <> 'q' then
+        begin
+            Write('Введите знак операции: ');
+            ReadLn(operation);
+        end;
+    until (operation = '+') or (operation = '-') or (operation = ':') or (operation = '*') or (elm1 = 'q') or (operation = 'q');
 
     // Получение второго числа
     repeat
-       Write('Введите второе число: ');
-       ReadLn(elm2);
-       Stop(elm2);
-       if elm2 = '0' then
-       begin
-          WriteLn('На ноль делить нельзя.')
+        if (elm1 <> 'q') and (operation <> 'q') then
+        begin
+            Write('Введите второе число: ');
+            ReadLn(elm2);
+            check2 := 0;
+            if operation = ':' then
+            begin
+                if elm2 = '0' then
+                begin
+                    WriteLn('На ноль делить нельзя.');
+                    check2 := 1;
+                end;
+           end;
+           Val(elm2, num2, check1);
        end;
-       Val(elm2, num2, code);
-    until (code = 0) and (elm2[1] <> '0');
+    until (check1 = 0) and (check2 = 0) or (elm1 = 'q') or (operation = 'q') or (elm2 = 'q');
 
     // Вычисления
-    if operation = '+' then
+    if (elm1 <> 'q') or (operation <> 'q') or (elm2 <> 'q') then
     begin
-       result := num1 + num2;
-    end;
+        if operation = '+' then
+        begin
+            result := num1 + num2;
+        end;
 
-    if operation = '-' then
-    begin
-       result := num1 - num2;
-    end;
+        if operation = '-' then
+        begin
+            result := num1 - num2;
+        end;
 
-    if operation = '*' then
-    begin
-       result := num1 * num2;
-    end;
+        if operation = '*' then
+        begin
+            result := num1 * num2;
+        end;
 
-    if operation = ':' then
-    begin
-       result := num1 / num2;
+        if operation = ':' then
+        begin
+            result := num1 / num2;
+        end;
+        // Вывод результата
+        Write('Результат: ', result :0 :2);
+        ReadLn;
     end;
-
-    // Вывод результата
-    Write('Результат: ', result :0 :2);
-    ReadLn;
 end.
