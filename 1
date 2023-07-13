@@ -1,7 +1,7 @@
 program project1;
 
 var
-elm1, elm2, operation: string;     // Полученные значения, знак операции
+elm1, elm2, operation : string;    // Полученные значения, знак операции
 num1, num2, result : double;       // Числа, результат
 check1, check2: integer;           // Флажок (цифры, :0)
 
@@ -10,7 +10,10 @@ begin
     repeat
         Write('Введите первое число: ');
         ReadLn(elm1);
-        Val(elm1, num1, check1);
+        if (elm1 <> 'q') then
+        begin
+            Val(elm1, num1, check1);
+        end;
     until (check1 = 0) or (elm1 = 'q');
 
     // Получение знака операции
@@ -42,7 +45,7 @@ begin
     until (check1 = 0) and (check2 = 0) or (elm1 = 'q') or (operation = 'q') or (elm2 = 'q');
 
     // Вычисления
-    if (elm1 <> 'q') or (operation <> 'q') or (elm2 <> 'q') then
+    if (elm1 <> 'q') and (operation <> 'q') and (elm2 <> 'q') then
     begin
         if operation = '+' then
         begin
@@ -63,6 +66,7 @@ begin
         begin
             result := num1 / num2;
         end;
+
         // Вывод результата
         Write('Результат: ', result :0 :2);
         ReadLn;
