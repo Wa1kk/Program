@@ -1,103 +1,128 @@
-program Calculator;
+program Calculatorr;
 
 type
-  TNumber = class
-  private
-    value: Double;
-  public
-    constructor Create(a: Double);
-    function GetValue: Double;
-    procedure SetValue(a: Double);
-  end;
-
-constructor TNumber.Create(a: Double);
-begin
-  value := a;
+NCalculator = class
+private
+    num1, num2: Double;
+public
+    constructor Create();
+    procedure Set1(a, b: Double);
+    function Add: Double;
+    function Subtract: Double;
+    function Multiply: Double;
+    function Divide: Double;
 end;
 
-function TNumber.GetValue: Double;
+constructor NCalculator.Create();
 begin
-  Result := value;
+    num1 := 0;
+    num2 := 0;
 end;
 
-procedure TNumber.SetValue(a: Double);
+procedure NCalculator.Set1(a, b: Double);
 begin
-  value := a;
+    num1 := a;
+    num2 := b;
 end;
 
-type
-  TCalculator = class
-  private
-    num1, num2, result: TNumber;
-  public
-    constructor Create(a, b: TNumber);
-    function Add: TNumber;
-    function Subtract: TNumber;
-    function Multiply: TNumber;
-    function Divide: TNumber;
-  end;
-
-constructor TCalculator.Create(a, b: TNumber);
+function NCalculator.Add: Double;                 // +
 begin
-  num1 := a;
-  num2 := b;
-  result := TNumber.Create(0);
+    Result := num1 + num2;
 end;
 
-function TCalculator.Add: TNumber;
+function NCalculator.Subtract: Double;            // -
 begin
-  result.SetValue(num1.GetValue + num2.GetValue);
-  Result := result;
+    Result := num1 - num2;
 end;
 
-function TCalculator.Subtract: TNumber;
+function NCalculator.Multiply: Double;            // *
 begin
-  result.SetValue(num1.GetValue - num2.GetValue);
-  Result := result;
+    Result := num1 * num2;
 end;
 
-function TCalculator.Multiply: TNumber;
+function NCalculator.Divide: Double;              // :
 begin
-  result.SetValue(num1.GetValue * num2.GetValue);
-  Result := result;
+    Result := num1 / num2;
 end;
 
-function TCalculator.Divide: TNumber;
+function IsNumber(const value: string): Boolean;  // Проверка полученного числа
+var
+    num: Double;
+    code: Integer;
 begin
-  if num2.GetValue <> 0 then
-    result.SetValue(num1.GetValue / num2.GetValue)
-  else
-    result.SetValue(0);
-  Result := result;
+    Val(value, num, code);
+    Result := code = 0;
 end;
 
 var
-  num1, num2, result: TNumber;
-  a, b: Double;
-  calculator: TCalculator;
+calc: NCalculator;
+a, b: Double;
+operation: Char;
+inputTMP: string;
 
 begin
-  Write('Введите первое число: ');
-  ReadLn(a);
-  num1 := TNumber.Create(a);
+    // Получение первого числа
+    Write('Введите первое число: ');
+    ReadLn(inputTMP);
 
-  Write('Введите второе число: ');
-  ReadLn(b);
-  num2 := TNumber.Create(b);
+    if not IsNumber(inputTMP) then
+    begin
+        WriteLn('Ошибка при вводе числа.');
+        ReadLn;
+    end;
+    Val(inputTMP, a);
 
-  calculator := TCalculator.Create(num1, num2);
+    // Получение знака операции
+    Write('Введите знак операции (+, -, *, /): ');
+    ReadLn(operation);
 
-  result := calculator.Add;
-  WriteLn('Сложение: ', result.GetValue:0:2);
+    if not (operation in ['+', '-', '*', '/']) then
+    begin
+        WriteLn('Неправильный знак операции.');
+        ReadLn;
+    end;
 
-  result := calculator.Subtract;
-  WriteLn('Вычитание: ', result.GetValue:0:2);
+    // Получение второго числа
+    Write('Введите второе число: ');
+    ReadLn(inputTMP);
 
-  result := calculator.Multiply;
-  WriteLn('Умножение: ', result.GetValue:0:2);
+    if not IsNumber(inputTMP) then
+    begin
+        WriteLn('Ошибка при вводе числа.');
+        ReadLn;
+    end;
+    Val(inputTMP, b);
 
-  result := calculator.Divide;
-  WriteLn('Деление: ', result.GetValue:0:2);
+    // Вывод
+    calc := NCalculator.Create();
+    calc.Set1(a, b);
 
-  ReadLn;
+    if (operation = '+') then
+    begin
+        WriteLn('Результат: ', calc.Add:0 :2);
+    end;
+
+    if (operation = '-') then
+    begin
+        WriteLn('Результат: ', calc.Subtract:0 :2);
+    end;
+
+    if (operation = '*') then
+    begin
+        WriteLn('Результат: ', calc.Multiply:0 :2);
+    end;
+
+    if (operation = '/') then
+    begin
+        if (b = 0) then
+        begin
+            WriteLn('Деление на ноль недопустимо');
+        end
+        else
+        begin
+            WriteLn('Результат: ', calc.Divide:0 :2);
+        end;
+    end;
+
+    ReadLn;
 end.
