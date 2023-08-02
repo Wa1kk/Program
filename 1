@@ -1,74 +1,114 @@
-program project1;
+Конечно! Вот пример кода на Pascal, где числа, первое полученное число, второе и результат, являются объектами:
+
+program Calculator;
+
+type
+  TNumber = class
+  private
+    value: Double;
+  public
+    constructor Create(a: Double);
+    function GetValue: Double;
+    procedure SetValue(a: Double);
+  end;
+
+constructor TNumber.Create(a: Double);
+begin
+  value := a;
+end;
+
+function TNumber.GetValue: Double;
+begin
+  Result := value;
+end;
+
+procedure TNumber.SetValue(a: Double);
+begin
+  value := a;
+end;
+
+type
+  TCalculator = class
+  private
+    num1, num2, result: TNumber;
+  public
+    constructor Create(a, b: TNumber);
+    function Add: TNumber;
+    function Subtract: TNumber;
+    function Multiply: TNumber;
+    function Divide: TNumber;
+  end;
+
+constructor TCalculator.Create(a, b: TNumber);
+begin
+  num1 := a;
+  num2 := b;
+  result := TNumber.Create(0);
+end;
+
+function TCalculator.Add: TNumber;
+begin
+  result.SetValue(num1.GetValue + num2.GetValue);
+  Result := result;
+end;
+
+function TCalculator.Subtract: TNumber;
+begin
+  result.SetValue(num1.GetValue - num2.GetValue);
+  Result := result;
+end;
+
+function TCalculator.Multiply: TNumber;
+begin
+  result.SetValue(num1.GetValue * num2.GetValue);
+  Result := result;
+end;
+
+function TCalculator.Divide: TNumber;
+begin
+  if num2.GetValue <> 0 then
+    result.SetValue(num1.GetValue / num2.GetValue)
+  else
+    result.SetValue(0);
+  Result := result;
+end;
 
 var
-elm1, elm2, operation : string;    // Полученные значения, знак операции
-num1, num2, result : double;       // Числа, результат
-check1, check2: integer;           // Флажок (цифры, :0)
+  num1, num2, result: TNumber;
+  a, b: Double;
+  calculator: TCalculator;
 
 begin
-    // Получение первого числа
-    repeat
-        Write('Введите первое число: ');
-        ReadLn(elm1);
-        if (elm1 <> 'q') then
-        begin
-            Val(elm1, num1, check1);
-        end;
-    until (check1 = 0) or (elm1 = 'q');
+  Write('Введите первое число: ');
+  ReadLn(a);
+  num1 := TNumber.Create(a);
 
-    // Получение знака операции
-    repeat
-        if elm1 <> 'q' then
-        begin
-            Write('Введите знак операции: ');
-            ReadLn(operation);
-        end;
-    until (operation = '+') or (operation = '-') or (operation = ':') or (operation = '*') or (elm1 = 'q') or (operation = 'q');
+  Write('Введите второе число: ');
+  ReadLn(b);
+  num2 := TNumber.Create(b);
 
-    // Получение второго числа
-    repeat
-        if (elm1 <> 'q') and (operation <> 'q') then
-        begin
-            Write('Введите второе число: ');
-            ReadLn(elm2);
-            check2 := 0;
-            if operation = ':' then
-            begin
-                if elm2 = '0' then
-                begin
-                    WriteLn('На ноль делить нельзя.');
-                    check2 := 1;
-                end;
-           end;
-           Val(elm2, num2, check1);
-       end;
-    until (check1 = 0) and (check2 = 0) or (elm1 = 'q') or (operation = 'q') or (elm2 = 'q');
+  calculator := TCalculator.Create(num1, num2);
 
-    // Вычисления
-    if (elm1 <> 'q') and (operation <> 'q') and (elm2 <> 'q') then
-    begin
-        if operation = '+' then
-        begin
-            result := num1 + num2;
-        end;
+  result := calculator.Add;
+  WriteLn('Сложение: ', result.GetValue:0:2);
 
-        if operation = '-' then
-        begin
-            result := num1 - num2;
-        end;
+  result := calculator.Subtract;
+  WriteLn('Вычитание: ', result.GetValue:0:2);
 
-        if operation = '*' then
-        begin
-            result := num1 * num2;
-        end;
+  result := calculator.Multiply;
+  WriteLn('Умножение: ', result.GetValue:0:2);
 
-        if operation = ':' then
-        begin
-            result := num1 / num2;
-        end;
+  result := calculator.Divide;
+  WriteLn('Деление: ', result.GetValue:0:2);
 
-        // Вывод результата
-        Write('Результат: ', result :0 :2);
-        ReadLn;
-    end;
+  ReadLn;
 end.
+
+
+В этом примере числа представлены объектами класса TNumber. Класс TNumber имеет приватное поле value для хранения числового значения, а также методы GetValue и SetValue для получения и установки значения.
+
+Класс TCalculator содержит объекты num1, num2 и result типа TNumber. Методы Add, Subtract, Multiply и Divide выполняют соответствующие математические операции над значениями объектов num1 и num2, а затем возвращают объект result с результатом.
+
+В основной части программы пользователь вводит два числа, которые затем используются для создания объектов num1 и num2. Затем создается объект calculator, и методы Add, Subtract, Multiply и Divide вызываются для выполнения соответствующих операций. Результаты выводятся на экран.
+
+Надеюсь, это помогает! Если у вас возникнут дополнительные вопросы, пожалуйста, дайте мне знать. 😉
